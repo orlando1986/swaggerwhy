@@ -60,7 +60,13 @@ class PictureActivity : AppCompatActivity() {
         val url = "http://110.40.175.218:5000/gen"
 
         val outStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+        val resizedBitmap = Bitmap.createScaledBitmap(
+            bitmap,
+            (bitmap.width * 480.0 / bitmap.height).toInt(),
+            480,
+            true
+        )
+        resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 72, outStream);
 
         val requestBody = outStream.toByteArray().toRequestBody("image/jpeg".toMediaTypeOrNull())
         val part = MultipartBody.Part.createFormData("graph", "graph", requestBody)
